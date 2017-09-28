@@ -1,0 +1,124 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-navbar color="Rose" > 
+  
+    <button  ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Talk</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only [navPush]="createPost">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="posts">
+
+  <ion-card *ngFor="let post of posts" class="marginPost">
+
+  <div *ngIf="post.repost_id != null"> <!-- POST SHARE -->
+
+    <ion-item >
+      <h3 class="inline lighter" color="indianRed" (click)="viewUser(post.user_id)">{{ post.userShareName }}</h3>
+      <h2 color="text" class="inline tamañoTexto"> Share this:</h2>
+    </ion-item>
+
+      <ion-item>  
+        <ion-avatar item-left (click)="viewUser(post.userShareId)">
+          <img src="{{ post.userAvatar_url }}">
+        </ion-avatar>
+        <h3 colors="indianRed" class="lighter inline" (click)="viewUser(post.userShareId)">{{ post.usuario }}</h3>
+        <p color="text" class="inline floatRight dateText textPost">{{ post.date }}</p>
+      </ion-item>
+    
+  </div>
+
+
+  <div *ngIf="post.repost_id == null" >  <!-- POST ORIGINAL!!!!!-->
+    <ion-item>
+        <ion-avatar item-left (click)="viewUser(post.user_id)">
+          <img src="{{ post.userAvatar_url }}">
+        </ion-avatar>
+        <h3 color="#indianRed" class="lighter inline" (click)="viewUser(post.user_id)"> {{ post.usuario }}</h3>
+        <p color="text" class="inline floatRight dateText textPost">{{ post.date }}</p>
+      </ion-item>
+  </div>
+
+  
+    <ion-item text-wrap class="post-body">
+      <div (click)="viewPost(post.id)">
+        <p color="text" class="textPost ">{{ post.body }}</p>
+      </div>
+    </ion-item>
+
+    <img imageViewer *ngIf="post.photo_url !='/photos/original/missing.png' " src="{{ post.photo_url }}">
+
+    <ion-item text-wrap class="post-body">
+      <div>
+        <a color="text" (click)="whoLikes(post)" class="subdued">{{ post.likes}} likes</a>
+        <a color="text"  class="subdued"  margin-left>{{post.dislikes}} disikes</a>
+        <a color="text" (click)="viewPost(post.id)" class="subdued" margin-left>{{ post.comments}} comments</a>
+        <a color="text" (click)="whoShares(post)" class="subdued" margin-left>{{ post.shares}} shares</a>
+      </div>
+    </ion-item>
+
+    <ion-grid class="post-actions">
+      <ion-row>
+
+        <ion-col width-33 text-center (click)="toggleLike(post)">
+          <ion-icon name="heart" color="Rose" *ngIf="alreadyLike(post) || post.liked"></ion-icon>
+          <ion-icon name="heart" *ngIf="!alreadyLike(post) && !post.liked"></ion-icon>
+        </ion-col>
+
+
+        <ion-col width-33 text-center (click)="toggleDisLike(post)">
+         <ion-icon class="iconYaNoMeGusta" *ngIf="alreadyDisLike(post) || post.disliked" ></ion-icon>
+         <ion-icon class="iconNoMeGusta"  *ngIf="!alreadyDisLike(post) && !post.disliked" ></ion-icon>       
+        </ion-col>
+
+
+        <ion-col width-33 text-center (click)="viewPost(post.id)">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </ion-col>
+
+        <ion-col width-33 text-center (click)="sharePost(post)">
+          <ion-icon name="share-alt" color="Rose"  *ngIf="alreadyShare(post) || post.shared"></ion-icon>
+          <ion-icon name="share-alt" *ngIf="!alreadyShare(post) && !post.shared"></ion-icon>
+
+        </ion-col>
+
+
+      </ion-row>
+    </ion-grid>
+
+  </ion-card>
+  </div>
+
+   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+ </ion-infinite-scroll>
+
+</ion-content>
+
+
+
+
+
+
+
+
+
+

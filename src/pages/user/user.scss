@@ -1,0 +1,53 @@
+page-user,
+.user {
+  .profile-picture {
+    width: 8em;
+    height: 8em;
+  }
+
+  ion-row {
+    border-top: 1px solid $borderColor;
+
+    .number {
+      display: block;
+    }
+  }
+
+  .post-content {
+
+    .subdued {
+      margin-right: 5px;
+    }
+  }
+
+
+  .post-body {
+
+    //border-top: 1px solid $borderColor;
+    //border-bottom: 1px solid $borderColor;
+
+    p {
+      font-size: 0.8em;
+    }
+
+    a.subdued {
+      color: $textColor;
+      font-size: 0.8em;
+    }
+  }
+
+  .unaLinea{
+    display: inline-block !important;
+  }
+
+  .floatLeft {
+  float: left;
+}
+
+  .botonAgregar{
+    margin-top: -100px !important;
+    margin-right: -54px;
+
+  }
+  
+}

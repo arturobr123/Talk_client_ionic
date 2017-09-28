@@ -1,0 +1,31 @@
+
+
+<ion-header>
+  <ion-navbar color="Rose" >
+
+    <ion-title>Shares</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list class="list-full-border">
+
+    <ion-item-sliding *ngFor="let whoShare of whoShares">
+
+      <ion-item >
+        <ion-avatar item-left >
+          <img class="profile-picture" src="{{ whoShare.userAvatar_url }}" alt=""/>
+        </ion-avatar>
+
+        <div>
+          <h3 color="primary" (click)="viewUser(whoShare.user_id)" >{{ whoShare.user_name }}</h3>
+
+        </div>
+
+      </ion-item>
+
+    </ion-item-sliding>
+
+  </ion-list>
+</ion-content>

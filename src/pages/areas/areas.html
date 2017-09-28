@@ -1,0 +1,66 @@
+<!--
+  Generated template for the Areas page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="Rose" > 
+  
+    <button  ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Areas</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only [navPush]="createArea">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <div *ngIf="areas">
+
+  <ion-card *ngFor="let area of areas" class="marginPost">
+
+
+    <div> 
+      <ion-item>
+          <ion-avatar item-left (click)="viewUser(area.user_id)">
+            <img src="{{ area.userAvatar_url }}">
+          </ion-avatar>
+          <h2 color="indianRed"class="lighter inline" (click)="viewUser(area.user_id)"> {{ area.username }}</h2>
+          <p color="text" class="inline floatRight dateText textPost">{{ area.date }}</p>
+      </ion-item>
+    </div>
+
+  	<ion-item text-wrap >
+        <p color="indianRed"  class="titulo">{{ area.title }}</p>
+    </ion-item>
+  
+    <ion-item text-wrap >
+
+        <p color="text" class="description">{{ area.description }}</p>
+    </ion-item>
+
+    <button ion-button block color="menu-o" (click)="toggleVote(area)">
+      <div>
+          <ion-icon name="heart" color="Rose" *ngIf="alreadyVote(area) || area.liked"></ion-icon>
+          <ion-icon name="heart" *ngIf="!alreadyVote(area) && !area.liked"></ion-icon>
+          <label>Vote   {{ area.votes }}/100 </label>
+      </div>
+    </button>
+
+  </ion-card>
+  </div>
+
+
+</ion-content>
+
+

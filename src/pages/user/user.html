@@ -1,0 +1,146 @@
+<!--
+  Generated template for the UserPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="Rose"  class="no-border">
+
+  <ion-buttons>
+      <button ion-button icon-only (click)="viewFriendships()" *ngIf="thisIsMe()">
+        <ion-icon name="people"></ion-icon>
+      </button>
+  </ion-buttons>
+
+
+    <ion-title>{{ user.username }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div text-center [style.background-image]="bgImage" class="user-profile primary-bg backgroundCenter">
+
+
+    <img class="profile-picture" src="{{ user.avatar_url}}">
+
+    <button class="botonAgregar" (click)="createFriendship()" ion-button round icon-only  *ngIf="!alreadySendFriendshipp &&!thisIsMe()"> 
+      
+      <ion-icon name="person-add"></ion-icon>
+
+    </button>
+
+<!--       !alreadySendFriendshipp &&  -->
+
+    <button class="botonAgregar" ion-button round icon-only  color="gray" *ngIf="alreadySendFriendshipp &&!thisIsMe() && !alreadyFriends()"> 
+      
+      <ion-icon name="time"></ion-icon>
+
+    </button>
+
+
+
+    <h4 class="light">{{ user.username }}</h4>
+
+  
+
+    <ion-grid>
+      <ion-row>
+        <ion-col width-33  (click)="viewMyFriends()">
+          <span class="number">{{ user.Friends }}</span>
+          <span class="desc">Friends</span>
+        </ion-col>
+        <ion-col width-33>
+          <span class="number">{{ user.Love }}</span>
+          <span class="desc">Love</span>
+        </ion-col>
+        <ion-col width-33>
+          <span class="number">{{ user.PostsCount }}</span>
+          <span class="desc">Posts</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+  <ion-card *ngFor="let post of user.posts" class="marginPost">
+
+  <div *ngIf="post.repost_id != null"> <!-- POST SHARE -->
+
+    <ion-item >
+      <h2 class="inline lighter" color="indianRed" (click)="viewUser(post.user_id)">{{ post.userShareName }}</h2>
+      <h2 color="text" class="inline"> Share this:</h2>
+    </ion-item>
+
+      <ion-item>  
+        <ion-avatar item-left (click)="viewUser(post.userShareId)">
+          <img src="{{ post.userAvatar_url }}">
+        </ion-avatar>
+        <h2 color="indianRed" class="lighter inline" (click)="viewUser(post.userShareId)">{{ post.usuario }}</h2>
+        <p color="text" class="inline floatRight dateText textPost">{{ post.date }}</p>
+      </ion-item>
+    
+  </div>
+
+
+
+  <div *ngIf="post.repost_id == null" >  <!-- POST ORIGINAL!!!!!-->
+    <ion-item>
+        <ion-avatar item-left (click)="viewUser(post.user_id)">
+          <img src="{{ post.userAvatar_url }}">
+        </ion-avatar>
+        <h2 color="indianRed"class="lighter inline" (click)="viewUser(post.user_id)"> {{ post.usuario }}</h2>
+        <p color="text" class="inline floatRight dateText textPost">{{ post.date }}</p>
+      </ion-item>
+  </div>
+
+  
+    <ion-item text-wrap class="post-body">
+      <div (click)="viewPost(post.id)">
+        <p color="text" class="textPost">{{ post.body }}</p>
+      </div>
+    </ion-item>
+
+    <img imageViewer *ngIf="post.photo_url !='/photos/original/missing.png' " src="{{ post.photo_url }}">
+
+    <ion-item text-wrap class="post-body">
+      <div>
+        <a color="text" (click)="whoLikes(post)" class="subdued">{{ post.likes}} Likes</a>
+        <a color="text" (click)="viewPost(post.id)" class="subdued" margin-left>{{ post.comments}} Comments</a>
+        <a color="text" (click)="whoShares(post)" class="subdued" margin-left>{{ post.shares}} Shares</a>
+      </div>
+    </ion-item>
+
+    <ion-grid class="post-actions">
+      <ion-row>
+
+        <ion-col width-33 text-center (click)="toggleLike(post)" >
+          <ion-icon name="heart" color="Rose" *ngIf="alreadyLike(post) || post.liked"></ion-icon>
+          <ion-icon name="heart" *ngIf="!alreadyLike(post) && !post.liked"></ion-icon>
+        </ion-col>
+
+        <ion-col width-33 text-center (click)="viewPost(post.id)">
+          <ion-icon name="chatboxes"></ion-icon>
+        </ion-col>
+
+
+        <ion-col width-33 text-center (click)="sharePost(post)">
+          <ion-icon name="share-alt" color="Rose"  *ngIf="alreadyShare(post) || post.shared"></ion-icon>
+          <ion-icon name="share-alt" *ngIf="!alreadyShare(post) && !post.shared"></ion-icon>
+
+        </ion-col>
+
+
+      </ion-row>
+    </ion-grid>
+
+  </ion-card>
+
+
+<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+ </ion-infinite-scroll>
+
+
+</ion-content>
